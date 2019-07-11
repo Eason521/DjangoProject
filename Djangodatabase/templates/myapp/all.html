@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>所有</title>
+</head>
+<body>
+<table border="1">
+    <tr>
+        <td>序号</td>
+        <td>id</td>
+        <td>姓名</td>
+        <td>年龄</td>
+        <td>性别</td>
+        <td>生日</td>
+        <td>操作</td>
+    </tr>
+    {% for person_obj in person_obj_list %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ person_obj.id }}</td>
+            <td>{{ person_obj.name }}</td>
+            <td>{{ person_obj.age }}</td>
+            <td>{{ person_obj.gender }}</td>
+            <td>{{ person_obj.birthday|date:'Y-m-d' }}</td>
+            <td><a href="/delete/?id={{ person_obj.id }}">删除</a>
+                <a href="/update/?id={{ person_obj.id }}">修改</a>
+                <a href="/add/">添加</a>
+            </td>
+        </tr>
+    {% endfor %}
+
+
+
+</table>
+
+</body>
+</html>
