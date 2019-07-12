@@ -1,6 +1,7 @@
-﻿from django.shortcuts import render, redirect, render_to_response
+from django.shortcuts import render, redirect, render_to_response
 from django.shortcuts import HttpResponse
-from Myapp.models import *
+from Myapp.models import Person
+from CommonMethod.models import Student, Subject
 
 
 # Create your views here.
@@ -70,7 +71,7 @@ def test_exclude(request):
     return HttpResponse(person_obj_lst)
 
 
-def test_values(request, 对象中包含的是字典的形式=None):
+def test_values(request):
     # 7. values(): 返回一个QuerySet 对象，对象中包含的是字典的形式。
     ret = Person.objects.filter(age=12).values()
     print(ret)
@@ -132,7 +133,7 @@ def test_exists(request):
 
 
 # 双下划线方法
-def test_double_underline(request):
+def test1(request):
     # 1. xx__lt : 小于
     # person_obj_lst =models.Person.objects.filter(age__lt=13)
     # print(person_obj_lst) # <QuerySet [<Person: <obj: name:ls>>, <Person: <obj: name:ww>>]>
@@ -180,3 +181,68 @@ def test_double_underline(request):
     # <QuerySet [<Person: <obj: name:zs>>, <Person: <obj: name:ls>>, <Person: <obj: name:ww>>, <Person: <obj: name:zss>>]>
 
     return HttpResponse(ret)
+
+
+# 一对多CRUD操作
+def test2(request):
+    # 1.查询操作
+    # 正向查询
+    # zs 对应的学科
+    student_obj = Student.objects.get(name='邓紫棋')
+    print(student_obj) # <obj name:zs>
+    # subject_obj = Subject.objects.get(id=student_obj.subject_id)
+    # print(subject_obj) # <obj name:python>
+
+    # student_obj = Student.objects.get(name='zs')
+    # subject_obj =student_obj.subject # 返回一个对象
+    # print(subject_obj) # <obj name:python>
+    # print(subject_obj.name) # python
+    # 反向查询
+    # 查询 学python的 学员
+    # sub_obj = Subject.objects.get(name='python')
+    # ret =sub_obj.student_set.all() # 默认使用 类名小写_set 属性进行关联。
+    # print(ret)
+    # <QuerySet [<Student: <obj name:zs>>, <Student: <obj name:ls>>]>
+
+    # 2.增加操作
+    # 新增学员 邓诗颖 学python
+    # sub_obj = Subject.objects.get(name='Python')
+    # stu_obj = Student()
+    # stu_obj.name='邓诗颖'
+    # # stu_obj.subject= sub_obj # 赋值对象
+    # stu_obj.subject_id=sub_obj.id # 赋值id
+    # stu_obj.save()
+
+    # stu_obj = Student.objects.create(
+    #     name='金鱼嘴',
+    #     subject=sub_obj
+    # )
+    # print(stu_obj) # 返回创建好的对象: <obj name:金鱼嘴>
+
+    # java 学科 新增一个学员 jj
+    # sub_obj=m Subject.objects.get(name='java')
+    # sub_obj.student_set.create(name='jj')
+
+    # 3.删除操作
+    # 删除jj
+    # Student.objects.get(name='jj').delete()
+    # Student.objects.filter(name__contains='j').delete()
+    # java 毕业了，会级联删除对应的学员。
+    # models.Subject.objects.get(name='java').delete()
+
+    # 4. 修改
+    # zs 转学 java
+    # sub_obj = Subject.objects.get(name='java')
+    # stu_obj = Student.objects.get(name='zs')
+    # stu_obj.subject=sub_obj
+    # stu_obj.save()
+    # 使用 update()
+    # sub_obj = Subject.objects.get(name='java')
+    # models.Student.objects.filter(name='zs').update(subject=sub_obj)
+
+    # sub_obj = Subject.objects.get(name='java')
+    # stu_obj1 = Student.objects.get(name='zs')
+    # stu_obj2 = Student.objects.get(name='ls')
+    # sub_obj.student_set.set([stu_obj1, stu_obj2])
+
+    return HttpResponse('请求成功，返回内容请看pycharm控制台')

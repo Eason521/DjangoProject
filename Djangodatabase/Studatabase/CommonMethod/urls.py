@@ -15,7 +15,8 @@ urlpatterns = [
     path("test_person_obj_list/", views.test_person_obj_list),
     path("test_count/", views.test_count),
     path("test_exists/", views.test_exists),
-    path("test/", views.test_double_underline),
+    path("test1/", views.test1),
+    path("test2/", views.test2),
 
 
 ]
