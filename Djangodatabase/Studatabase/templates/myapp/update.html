@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改</title>
+</head>
+<body>
+    <form action="/update/" method="post">
+    {% csrf_token %}
+    <p>
+        用户名： <input type="text" name="username" value="{{ person_obj.name }}">
+    </p>
+
+    <p>
+        年龄： <input type="text" name="age" value="{{ person_obj.age }}">
+    </p>
+    <p>
+        性别： <input type="text" name="gender" value="{{ person_obj.gender }}">
+    </p>
+    <p>
+        生日： <input type="text" name="birthday" value="{{ person_obj.birthday|date:'Y-m-d' }}">
+    </p>
+{#    将id 保存到 隐藏域中 #}
+    <p>
+        <input type="hidden" name="id" value="{{ person_obj.id }}">
+    </p>
+    <p>
+        <input type="submit" value="修改">
+    </p>
+</form>
+</body>
+</html>
