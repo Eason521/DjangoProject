@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title>登录页</title>
+    <link href="/static/LoginApp/css/main.css" rel="stylesheet">
+</head>
+<body>
+    <div id="login">
+        <form action="/login/" method="post">
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <th colspan="2">登录界面</th>
+                </tr>
+                <tr>
+                    <td>用户名：</td>
+                    <td><label><input type="text" name="username"></label></td>
+                </tr>
+                <tr>
+                    <td>密码：</td>
+                    <td><label><input type="text" name="password"></label></td>
+                </tr>
+                <tr>
+                    <td>验证码：</td>
+                    <td><label><input name="verification_code" type="text"></label></td>
+                </tr>
+                <tr id="submit">
+                    <td colspan="2"><input type="submit" value="登录">
+
+                    <a href="/register/">没有账号？去注册</a></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</body>
+</html>

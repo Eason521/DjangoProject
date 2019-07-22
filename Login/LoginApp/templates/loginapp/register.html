@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册页</title>
+    <link href="/static/LoginApp/css/main.css" rel="stylesheet">
+    <script src="/static/LoginApp/js/jquery.min.js"></script>
+</head>
+<body>
+<div id="login">
+    <form action="/register/" method="post">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <th colspan="2"><h2>注&nbsp;册</h2></th>
+            </tr>
+            <tr>
+                <td>用户名：</td>
+                <td><label><input id="id_username" type="text" name="username"></label></td>
+                <td><input type="button" id="valid" value="校验"></td>
+
+            </tr>
+            <tr>
+                <td>密码：</td>
+                <td><label><input id="id_password" type="password" name="password"></label></td>
+            </tr>
+            <tr>
+                <td>确认密码：</td>
+                <td><label><input id="id_q_password" type="password" name="q_password"></label></td>
+            </tr>
+            <tr>
+                <td>邮箱：</td>
+                <td><label><input type="email" name="email"></label></td>
+            </tr>
+            <tr id="submit">
+                <td colspan="2"><input type="submit" value="提交"></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="color: red">{{ dic.content }}<span id="ts"></span></td>
+            </tr>
+        </table>
+{#        <script>#}
+{#            //点击按钮实现ajax校验#}
+{#            $("#valid").click(#}
+{#                function () {#}
+{#                    var value = $("#id_username").val();#}
+{#                    var url = `/nameValid/?username=${value}`;#}
+{#                    $.ajax({#}
+{#                        url:url,#}
+{#                        type:"get",#}
+{#                        data:"",#}
+{#                        success:function (data) {#}
+                            {#console.log(data)#}
+{#                            $("#ts").html(data.data)#}
+{#                        },#}
+{#                        error:function (error) {#}
+{#                            console.log(error)#}
+{#                        }#}
+{#                    })#}
+{#                }#}
+{#            )#}
+{#        </script>#}
+        <script>
+            //失焦校验
+            $("#id_username").blur(
+                function () {
+                    var value = $("#id_username").val();
+                    var url = `/nameValid/?username=${value}`;
+                    $.ajax({
+                        url:url,
+                        type:"get",
+                        data:"",
+                        success:function (data) {
+                            {#console.log(data)#}
+                            $("#ts").html(data.data)
+                        },
+                        error:function (error) {
+                            console.log(error)
+                        }
+                    })
+                }
+            );
+            $("#id_q_password").blur(
+                function () {
+                    var value = $("#id_password").val();
+                    var value1 = $("#id_q_password").val();
+                    var url = '/passwordValid/?password='+value+'&q_password='+value1;
+                    $.ajax({
+                        url:url,
+                        type:"get",
+                        data:"",
+                        success:function (data) {
+                            console.log(data);
+                            $("#ts").html(data.data)
+                        },
+                        error:function (error) {
+                            console.log(error)
+                        }
+                    })
+                }
+            )
+
+
+        </script>
+    </form>
+</div>
+</body>
+</html>
